@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Device Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 360px;
+            background-image: url("https://i.pinimg.com/originals/21/54/cd/2154cd17b398cf202ab361615fe313af.jpg");
+            background-size: cover;
+            background-position: center bottom; /* Centrer l'image horizontalement, mais déplacer vers le bas */
+            background-repeat: no-repeat;
+        }
+        h1 {
+            color: rgb(144, 7, 7); /* Couleur du texte  */
+            margin-left: 4cm; /* Décalage de 4 cm vers la droite */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #6010d6;
+        }
+        #datetime {
+            font-size: 18px;
+            color: #f91e0ea5;
+            margin-top: 30px; /* Espacement en haut de l'élément contenant la date et l'heure */
+        }
+    </style>
+</head>
+<body>
+    <div id="datetime"></div> <!-- Élément pour afficher la date et l'heure -->
+
+    <h1>Welcome here wish that you are in a good health always</h1>
+    <p>Manage and monitor your IoT devices efficiently.</p>
+
+    <div>
+        <button onclick="redirectToLogin()">Login</button>
+        <button onclick="redirectToRegister()">Register</button>
+    </div>
+
+    <script>
+        function redirectToLogin() {
+            window.location.href = '/auth/login'; // Rediriger vers la page de connexion
+        }
+
+        function redirectToRegister() {
+            window.location.href = '/auth/register'; // Rediriger vers la page d'inscription
+        }
+
+        // Fonction pour afficher la date et l'heure actuelles
+        function displayDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+            const formattedDateTime = now.toLocaleDateString('en-US', options);
+            document.getElementById('datetime').textContent = formattedDateTime;
+        }
+
+        // Appeler la fonction au chargement de la page
+        displayDateTime();
+    </script>
+</body>
+</html>

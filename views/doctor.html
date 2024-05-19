@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 250px;
+            background-image: url('https://wallpapercave.com/wp/wp2968506.jpg'); /* Remplacez 'background.jpg' par le chemin de votre image */
+            background-size: cover; /* Couvre toute la page */
+            background-position: center; /* Centre l'image */
+            background-repeat: no-repeat; /* Ne répète pas l'image */
+            color: #dd16b5; /* Couleur du texte */
+        }
+        h1 {
+            color: #ef6028; /* Couleur du titre */
+        }
+        .dashboard-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #0ede49;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #3cde06;
+        }
+        .patient-info-container {
+            margin-top: 30px;
+            border: 1px solid #010308;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(249, 249, 249, 0.322); /* Fond semi-transparent */
+            color: #333; /* Couleur du texte */
+        }
+        .patient-info-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .profile-image {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, Doctor!</h1>
+
+    <div class="dashboard-actions">
+        <!-- Bouton de déconnexion (pour revenir à la page d'accueil) -->
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Zone pour consulter les informations du patient -->
+    <div class="patient-info-container">
+        <h2>Consult Patient Information</h2>
+        <label for="patientIdentifier">Enter Patient Email or ID:</label>
+        <input type="text" id="patientIdentifier" required>
+        <button id="searchPatientBtn">Search</button>
+
+        <div id="patientInfo">
+            <!-- Les informations du patient seront affichées ici -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Gestion du bouton de déconnexion
+        $('#logoutBtn').on('click', function() {
+            // Redirection vers la page d'accueil lors de la déconnexion
+            window.location.href = '/';
+        });
+
+        // JavaScript pour rechercher les informations d'un patient
+        $('#searchPatientBtn').on('click', function() {
+            const patientIdentifier = $('#patientIdentifier').val();
+
+            // Appel AJAX pour récupérer les informations du patient
+            $.ajax({
+                url: '/api/patient/' + patientIdentifier, // Endpoint pour récupérer les infos du patient
+                method: 'GET',
+                success: function(data) {
+                    // Affichage des informations du patient dans #patientInfo
+                    $('#patientInfo').html(`
+                        <div>
+                            <p class="patient-info-title">Patient ID:</p>
+                            <p>${data._id}</p>
+                        </div>
+                        <div>
+                            <p class="patient-info-title">First Name:</p>
+                            <p>${data.first_name}</p>
+                        </div>
+                        <div>
+                            <p class="patient-info-title">Last Name:</p>
+                            <p>${data.last_name}</p>
+                        </div>
+                        <div>
+                            <p class="patient-info-title">Email:</p>
+                            <p>${data.email}</p>
+                        </div>
+                        <div>
+                            <p class="patient-info-title">Phone Number:</p>
+                            <p>${data.phone_number}</p>
+                        </div>
+                        <!-- Ajoutez d'autres informations du patient ici -->
+                    `);
+                },
+                error: function() {
+                    // En cas d'erreur lors de la recherche du patient
+                    $('#patientInfo').html('<p>Patient not found.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

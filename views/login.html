@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+            background-image: url("https://i.pinimg.com/originals/21/54/cd/2154cd17b398cf202ab361615fe313af.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        label, input {
+            display: block;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .register-link {
+            margin-top: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .home-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: #fff;
+        }
+        .home-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <a href="http://localhost:5000/">
+            <button class="home-button">Home</button>
+        </a>
+        <h1>Login to IoT Device Management</h1>
+    </div>
+
+    <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <div class="button-container">
+            <button type="submit">Login</button>
+        </div>
+    </form>
+
+    <div class="register-link">
+        <p>Don't have an account? <a href="/auth/register">Register here</a></p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const loginData = {
+                email: email,
+                password: password
+            };
+
+            fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.accessToken) {
+                    console.log('Login successful:', data);
+                    if (data.role === 'doctor') {
+                        window.location.href = '/doctor.html';
+                    } else if (data.role === 'patient') {
+                        window.location.href = '/patient.html';
+                    } else {
+                        alert('Unknown role');
+                    }
+                } else {
+                    console.error('Login failed:', data.message);
+                    alert('Login failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Login failed. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

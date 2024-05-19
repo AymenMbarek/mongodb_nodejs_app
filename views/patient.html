@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-image: url('https://t3.ftcdn.net/jpg/06/55/21/66/360_F_655216638_U19P6Gx8R6OU31Jrm88Km9odGOchrggK.jpg'); /* Image de fond */
+            background-size: cover;
+            background-position: center;
+            color: #333;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .dashboard-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .responsibility-info {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+        .doctor-info {
+            margin-top: 30px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .notes-container,
+        .alert-container {
+            margin-top: 30px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .notes-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, Patient/Family Member!</h1>
+
+    <div class="dashboard-actions">
+        <button id="consultDataBtn">Consult ECG and Position</button>
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="responsibility-info">
+        <p>Responsible: <span id="responsibleName">Patient Name</span></p>
+    </div>
+
+    <div class="doctor-info" id="doctorInfo">
+        <p class="doctor-title">Doctor Information:</p>
+        <p id="doctorName">Doctor: Loading...</p>
+        <p id="doctorSpecialty">Specialty: Loading...</p>
+        <p id="doctorLocation">Location: Loading...</p>
+    </div>
+
+    <div class="notes-container">
+        <p class="notes-title">Medical Notes:</p>
+        <p id="medicalNotes">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel augue gravida, consequat odio et, efficitur neque.</p>
+    </div>
+
+    <div class="alert-container">
+        <p class="notes-title">Alerts (Messages):</p>
+        <p id="alerts">No alerts received.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#consultDataBtn').on('click', function() {
+            window.location.href = 'https://example.ubidots.com';
+        });
+
+        $('#logoutBtn').on('click', function() {
+            window.location.href = '/';
+        });
+
+        $(document).ready(function() {
+            $.ajax({
+                url: '/api/doctor',
+                method: 'GET',
+                success: function(data) {
+                    $('#doctorName').text('Doctor: ' + data.name);
+                    $('#doctorSpecialty').text('Specialty: ' + data.specialty);
+                    $('#doctorLocation').text('Location: ' + data.location);
+                },
+                error: function() {
+                    $('#doctorInfo').html('<p>Failed to load doctor information.</p>');
+                }
+            });
+        });
+
+        const medicalNotes = 'waiting for the doctor';
+        $('#medicalNotes').text(medicalNotes);
+
+        const alerts = 'No alerts received.';
+        $('#alerts').text(alerts);
+    </script>
+</body>
+</html>

@@ -23,12 +23,12 @@ router.get("/logout", (req, res) => {
 });
 
 // Route pour doctor
-router.get("/doctor", (req, res) => {
+router.get("/doctor.html", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "doctor.html"));
 });
 
 // Route pour patient
-router.get("/patient", (req, res) => {
+router.get("/patient.html", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "patient.html"));
 });
 
